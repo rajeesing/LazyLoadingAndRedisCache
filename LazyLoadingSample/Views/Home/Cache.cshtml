@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Order";
+}
+@model List<Model.SalesOrderItem>
+@if (Model != null && Model.Count > 0)
+{
+    <h2>@ViewBag.Message (@ViewBag.Where)</h2>
+    <p><strong>Order Date: </strong>@Model.First().SalesOrder.OrderDate</p>
+    <p><strong>Sales Order Number: </strong>@Model.First().SalesOrder.Code</p>
+    <div>
+        <table class="table">
+            <tr><th>Item id</th><th>Item Name</th><th>Item Description</th><th style="text-align:right;">Item Price</th></tr>
+            @foreach (Model.SalesOrderItem item in Model)
+            {
+                <tr><td>@item.ProductItem.Id</td><td>@item.ProductItem.ProductName</td><td>@item.ProductItem.ProductDescription</td><td style="text-align:right;">@string.Format("{0:c}", item.ProductItem.ProductPrice)</td></tr>
+
+            }
+        </table>
+        <div class="col-lg-4" style="float:right">
+            <table class="table">
+                <tr><td>Subtotal:</td><td style="text-align:right;">@string.Format("{0:c}", Model.First().SalesOrder.Total)</td></tr>
+                <tr><td>Tax:</td><td style="text-align:right;">@string.Format("{0:c}", Model.First().SalesOrder.Tax)</td></tr>
+                <tr><td>Discount:</td><td style="text-align:right;">@string.Format("{0:c}", Model.First().SalesOrder.Discount)</td></tr>
+                <tr><td>Grand Total:</td><td style="text-align:right;font-weight:bold">@string.Format("{0:c}", (Model.First().SalesOrder.Total + Model.First().SalesOrder.Tax - Model.First().SalesOrder.Discount))</td></tr>
+            </table>
+
+        </div>
+    </div>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" name="source" class="btn btn-danger">Clear Cache</button>
+    </form>
+}
+else
+{
+    <p>No Record @ViewBag.Error</p>
+}
+<div style="clear:both"></div>
+Sales Orders: @Html.ActionLink("1", "Cache", "Home", new { id = 1 }, new {@class="btn btn-primary" }) @Html.ActionLink("3", "Cache", "Home", new { id = 3 }, new { @class = "btn btn-primary" })

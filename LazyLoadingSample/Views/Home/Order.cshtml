@@ -1,0 +1,20 @@
+﻿@model LazyLoadingSample.Controllers.Order
+
+@{
+    ViewBag.Title = "Order";
+}
+
+<h3>@ViewBag.Message</h3>
+<p><strong>Order Number:</strong>@Model.OrderNumber</p>
+<p><strong>Order Date:</strong>@Model.OrderDate</p>
+<h4>Items:</h4>
+<table class="table">
+    <tr><th>Item id</th><th>Item Name</th><th>Item Price</th></tr>
+   
+        @foreach (LazyLoadingSample.Controllers.Item item in Model.Items)
+        {
+            <tr><td>@item.Id</td><td>@item.Name</td><td>@item.Price</td></tr>
+        }
+   
+
+</table>
